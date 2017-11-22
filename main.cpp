@@ -1,7 +1,3 @@
-#include "select-demo.h"
-
-#if DEMO == DEMO_HTTP
-
 #include "mbed.h"
 #include "easy-connect.h"
 #include "http_request.h"
@@ -32,7 +28,23 @@ int main() {
     {
         // By default the body is automatically parsed and stored in a buffer, this is memory heavy.
         // To receive chunked response, pass in a callback as last parameter to the constructor.
-        HttpRequest* get_req = new HttpRequest(network, HTTP_GET, "http://httpbin.org/status/418");
+        HttpRequest* get_req = new HttpRequest(network, HTTP_GET, "http://api.nytimes.com/svc/movies/v2/reviews/dvd-picks.json?order=by-date&api-key=b75da00e12d54774a2d362adddcc9bef");
+
+        HttpResponse* get_res = get_req->send();
+        if (!get_res) {
+            printf("HttpRequest failed (error code %d)\n", get_req->get_error());
+            return 1;
+        }
+
+        printf("\n----- HTTP GET response -----\n");
+        dump_response(get_res);
+
+        delete get_req;
+    }
+    {
+        // By default the body is automatically parsed and stored in a buffer, this is memory heavy.
+        // To receive chunked response, pass in a callback as last parameter to the constructor.
+        HttpRequest* get_req = new HttpRequest(network, HTTP_GET, "http://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=2e411cc96a9041d1be3f5c352523dc85");
 
         HttpResponse* get_res = get_req->send();
         if (!get_res) {
@@ -46,26 +58,5 @@ int main() {
         delete get_req;
     }
 
-    // POST request to httpbin.org
-    {
-        HttpRequest* post_req = new HttpRequest(network, HTTP_POST, "http://httpbin.org/post");
-        post_req->set_header("Content-Type", "application/json");
-
-        const char body[] = "{\"hello\":\"world\"}";
-
-        HttpResponse* post_res = post_req->send(body, strlen(body));
-        if (!post_res) {
-            printf("HttpRequest failed (error code %d)\n", post_req->get_error());
-            return 1;
-        }
-
-        printf("\n----- HTTP POST response -----\n");
-        dump_response(post_res);
-
-        delete post_req;
-    }
-
     Thread::wait(osWaitForever);
 }
-
-#endif

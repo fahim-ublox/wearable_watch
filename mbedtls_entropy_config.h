@@ -17,7 +17,7 @@
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
 
-#include "select-demo.h"
+//#include "select-demo.h"
 
 /* Enable entropy for K64F, K22F, ODIN-W2. This means entropy is disabled for all other targets. */
 /* Do **NOT** deploy this code in production on other targets! */
