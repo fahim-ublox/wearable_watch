@@ -28,7 +28,7 @@ int main() {
     {
         // By default the body is automatically parsed and stored in a buffer, this is memory heavy.
         // To receive chunked response, pass in a callback as last parameter to the constructor.
-        HttpRequest* get_req = new HttpRequest(network, HTTP_GET, "http://api.nytimes.com/svc/movies/v2/reviews/dvd-picks.json?order=by-date&api-key=b75da00e12d54774a2d362adddcc9bef");
+        HttpRequest* get_req = new HttpRequest(network, HTTP_GET, "http://api.nytimes.com/svc/movies/v2/reviews/dvd-picks.json?order=by-date&api-key=53638da19ad64c0e83dde75ebda91f7f");
 
         HttpResponse* get_res = get_req->send();
         if (!get_res) {
